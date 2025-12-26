@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Up! | Happy Birthday Dimas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            --bg-black: #050808;
+            --tosca-neon: #20cfc3;
+            --tosca-dim: #0e5e58;
+            --dark-surface: #0a1111;
+            --hologram-glow: rgba(32, 207, 195, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--bg-black);
+            color: #e0e0e0;
+            font-family: 'JetBrains Mono', monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #cursor {
+            width: 20px; height: 20px;
+            border: 2px solid var(--tosca-neon);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* --- STYLING OVERLAY --- */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-black);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        /* --- STYLING KARTU PESAN --- */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            padding: 3px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, var(--tosca-neon), transparent, var(--tosca-dim), var(--tosca-neon));
+            background-size: 400% 400%;
+            animation: gradientBorder 5s ease infinite;
+            display: none;
+            max-width: 550px;
+            width: 90%;
+        }
+
+        .main-card {
+            background: var(--dark-surface);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- HOLOGRAM CAKE SECTION --- */
+        #hologram-section {
+            display: none;
+            position: relative;
+            z-index: 20;
+            text-align: center;
+        }
+
+        .hologram-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Efek Proyeksi di Bawah */
+        .projector-beam {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 100px;
+            background: radial-gradient(50% 50% at 50% 100%, var(--hologram-glow), transparent);
+            filter: blur(10px);
+            animation: pulse 2s infinite;
+        }
+
+        .cake-svg {
+            width: 200px;
+            fill: none;
+            stroke: var(--tosca-neon);
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 15px var(--tosca-neon));
+            opacity: 0.8;
+        }
+
+        /* --- ANIMASI --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(-10deg); }
+            50% { transform: translateY(-20px) rotateY(10deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.6; transform: translateX(-50%) scale(1.2); }
+        }
+
+        @keyframes gradientBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- BUTTONS & TEXT --- */
+        h1 { font-family: 'Orbitron', sans-serif; color: var(--tosca-neon); margin-bottom: 15px; }
+        .btn-glitch {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: transparent;
+            color: var(--tosca-neon);
+            border: 1px solid var(--tosca-neon);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-glitch:hover { background: var(--tosca-neon); color: var(--bg-black); box-shadow: 0 0 20px var(--tosca-neon); }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="particles-js"></div>
+
+    <div id="overlay">
+        <h2 style="font-family: 'Orbitron'; color: var(--tosca-neon);">SYSTEM: READY</h2>
+        <button class="btn-glitch" onclick="startSystem()">OPEN MESSAGE</button>
+    </div>
+
+    <div class="card-container animate__animated" id="cardHolder">
+        <div class="main-card">
+            <h1>HBD, Dimas Anjayy mabarr ⚡</h1>
+            <div id="typewriter" style="min-height: 100px;"></div>
+            <button class="btn-glitch" onclick="triggerHologram()">ACTIVATE HOLOGRAM</button>
+        </div>
+    </div>
+
+    <div id="hologram-section" class="animate__animated">
+        <div class="hologram-container">
+            <svg class="cake-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18,14.5V17.5C18,18.33 17.33,19 16.5,19H7.5C6.67,19 6,18.33 6,17.5V14.5H18M18.5,11C19.33,11 20,11.67 20,12.5V13.5H4V12.5C4,11.67 4.67,11 5.5,11H18.5M12,6A1,1 0 0,1 13,7V9H11V7A1,1 0 0,1 12,6M16,6A1,1 0 0,1 17,7V9H15V7A1,1 0 0,1 16,6M8,6A1,1 0 0,1 9,7V9H7V7A1,1 0 0,1 8,6Z" />
+                <rect x="4" y="20" width="16" height="1" fill="currentColor" opacity="0.5"/>
+            </svg>
+            <div class="projector-beam"></div>
+        </div>
+        <h3 style="font-family: 'Orbitron'; color: var(--tosca-neon); margin-top: 30px; letter-spacing: 5px;">LEVEL UP: 2025</h3>
+        <p style="color: #444; font-size: 0.8rem; margin-top: 10px;">[ 26 DESEMBER ]</p>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="duvet_slowed.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 50 },
+                "color": { "value": "#20cfc3" },
+                "opacity": { "value": 0.3 },
+                "line_linked": { "enable": true, "color": "#20cfc3", "opacity": 0.1 }
+            }
+        });
+
+        function startSystem() {
+            document.getElementById('bgMusic').play();
+            const overlay = document.getElementById('overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                const card = document.getElementById('cardHolder');
+                card.style.display = 'block';
+                new Typewriter('#typewriter', {
+                    strings: ['> Sehat selalau panjang umur...', '> berkah selalu dan bermanfaat, Dimas.', '> Happy Level Up! ⚡'],
+                    autoStart: true,
+                    delay: 50
+                });
+            }, 1000);
+        }
+
+        function triggerHologram() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#20cfc3', '#ffffff'] });
+            
+            setTimeout(() => {
+                const card = document.getElementById('cardHolder');
+                const holo = document.getElementById('hologram-section');
+                
+                card.classList.add('animate__fadeOut');
+                setTimeout(() => {
+                    card.style.display = 'none';
+                    holo.style.display = 'block';
+                    holo.classList.add('animate__zoomIn');
+                }, 800);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
